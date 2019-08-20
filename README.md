@@ -1,4 +1,4 @@
-PyWebUI: Python bindings for OpenVMS Administration Tool
+PyWebUI: Python bind for OpenVMS Administration Tool
 ========================================================
 
 Installation
