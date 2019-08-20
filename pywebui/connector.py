@@ -31,3 +31,16 @@ class Connector:
             for attrs in r.json():
                 users.append(User(attrs))
         return users
+
+    def get_user(self, username):
+        url = urljoin(self.host, urls.API_GET_USER_DETAIL.format(username=username))
+        r = self.session.get(url, cookies={'jwt': self.token})
+        if r.status_code == 200:
+            return User(r.json())
+
+    def create_user(self): pass
+    def edit_user(self): pass
+    def delete_user(self): pass
+    def duplicate_user(self): pass
+    def disable_user(self): pass
+    def enable_user(self): pass
