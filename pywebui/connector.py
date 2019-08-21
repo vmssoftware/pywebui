@@ -11,6 +11,8 @@ class User:
     def __repr__(self):
         return self.username
 
+class ConnectorException(Exception): pass
+
 class Connector:
     token = None
     def __init__(self, host):
@@ -38,7 +40,37 @@ class Connector:
         if r.status_code == 200:
             return User(r.json())
 
-    def create_user(self): pass
+    def create_user(self, username, owner, password,uic, defprives, device, directory, pwd_expired, prives, account=None, flags=None):
+        url = urljoin(self.host, urls.API_ADD_USER)
+
+        data = {
+            "account": account,
+            "defprives": defprives,
+            "device": device,
+            "directory": directory,
+            "flags": flags,
+            "owner": owner,
+            "password": password,
+            "pwd_expired": pwd_expired,
+            "prives": prives,
+            "username": username,
+            "uic": uic
+        }
+
+        if account:
+            data['account'] = account
+
+        if flags:
+            data['flags'] = flags
+
+        r = self.session.post(url, json=data, cookies={'jwt': self.token})
+        print(r.json())
+        if r.status_code == 200:
+            return True # TODO: request and return created User
+        elif r.status_code == 400:
+            message = r.json()
+            raise ConnectorException(message)
+
     def edit_user(self): pass
     def delete_user(self): pass
     def duplicate_user(self): pass
