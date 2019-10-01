@@ -64,15 +64,64 @@ class Connector:
             data['flags'] = flags
 
         r = self.session.post(url, json=data, cookies={'jwt': self.token})
-        print(r.json())
+
         if r.status_code == 200:
             return True # TODO: request and return created User
         elif r.status_code == 400:
             message = r.json()
             raise ConnectorException(message)
 
-    def edit_user(self): pass
-    def delete_user(self): pass
-    def duplicate_user(self): pass
-    def disable_user(self): pass
-    def enable_user(self): pass
+    def edit_user(self, username, **fields):
+        url = urljoin(self.host, urls.API_EDIT_USER.format(username=username))
+
+        r = self.session.put(url, json=fields, cookies={'jwt': self.token})
+
+        if r.status_code == 200:
+            return True # TODO: request and return created User
+        elif r.status_code == 400:
+            message = r.json()
+            raise ConnectorException(message)
+
+    def delete_user(self, username):
+        url = urljoin(self.host, urls.API_DELETE_USER.format(username=username))
+
+        r = self.session.delete(url, cookies={'jwt': self.token})
+
+        if r.status_code == 200:
+            return True
+        elif r.status_code == 400:
+            message = r.json()
+            raise ConnectorException(message)
+
+    def duplicate_user(self, username, new_username):
+        url = urljoin(self.host, urls.API_DUPLICATE_USER.format(username=username))
+
+        r = self.session.post(url, json={'new_user': new_username}, cookies={'jwt': self.token})
+
+        if r.status_code == 200:
+            return True # TODO: request and return created User
+        elif r.status_code == 400:
+            message = r.json()
+            raise ConnectorException(message)
+
+    def disable_user(self, username):
+        url = urljoin(self.host, urls.API_DISABLE_USER.format(username=username))
+
+        r = self.session.put(url, cookies={'jwt': self.token})
+
+        if r.status_code == 200:
+            return True
+        elif r.status_code == 400:
+            message = r.json()
+            raise ConnectorException(message)
+
+    def enable_user(self, username):
+        url = urljoin(self.host, urls.API_ENABLE_USER.format(username=username))
+
+        r = self.session.put(url, cookies={'jwt': self.token})
+
+        if r.status_code == 200:
+            return True
+        elif r.status_code == 400:
+            message = r.json()
+            raise ConnectorException(message)
