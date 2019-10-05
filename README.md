@@ -11,6 +11,9 @@ python setup.py install
 ## Usage
 
 ```python
+# Import library
+import pywebui
+
 # Create connection object
 c = pywebui.Connector('http://10.11.102.21:8082')
 # Authenticate
@@ -26,7 +29,7 @@ c.get_users()
 ```python
      c = pywebui.Connector('http://10.11.102.21:8082')
      c.login('testuser', 'testuser')
-     c.get_users()
+     print(c.get_users())
 ```
 
 ### Get User Details
@@ -34,7 +37,7 @@ c.get_users()
 ```python
      c = pywebui.Connector('http://10.11.102.21:8082')
      c.login('testuser', 'testuser')
-     c.get_user('testuser')
+     print(c.get_user('testuser'))
 ```
 
 ### Create User
