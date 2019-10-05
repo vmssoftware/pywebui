@@ -26,21 +26,44 @@ class Connector:
             if 'jwt' in r.cookies:
                 self.token = r.cookies['jwt']
 
+    def get(self, url, **query_params):
+        url = urljoin(self.host, url.format(**query_params))
+        response = self.session.get(url, cookies={'jwt': self.token})
+        return response
+
+    def post(self, url, json={}, **query_params):
+        url = urljoin(self.host, url.format(**query_params))
+        response = self.session.post(url, json=json, cookies={'jwt': self.token})
+        return response
+
+    def put(self, url, json={}, **query_params):
+        url = urljoin(self.host, url.format(**query_params))
+        response = self.session.put(url, json=json, cookies={'jwt': self.token})
+        return response
+
+    def delete(self, url, **query_params):
+        url = urljoin(self.host, url.format(**query_params))
+        response = self.session.delete(url, cookies={'jwt': self.token})
+        return response
+
     def get_users(self):
         users = []
-        r = self.session.get(urljoin(self.host, urls.API_GET_USER_LIST), cookies={'jwt': self.token})
+        r = self.get(urls.API_GET_USER_LIST)
         if r.status_code == 200:
             for attrs in r.json():
                 users.append(User(attrs))
+
         return users
 
     def get_user(self, username):
-        url = urljoin(self.host, urls.API_GET_USER_DETAIL.format(username=username))
-        r = self.session.get(url, cookies={'jwt': self.token})
+        r = self.get(urls.API_GET_USER_DETAIL, username = username)
         if r.status_code == 200:
             return User(r.json())
+        elif r.status_code == 404:
+            message = r.json()
+            raise ConnectorException(message['details'])
 
-    def create_user(self, username, owner, password,uic, defprives, device, directory, pwd_expired, prives, account=None, flags=None):
+    def create_user(self, username, owner, password, uic, defprives, device, directory, pwd_expired, prives, account=None, flags=None):
         url = urljoin(self.host, urls.API_ADD_USER)
 
         data = {
@@ -63,65 +86,58 @@ class Connector:
         if flags:
             data['flags'] = flags
 
-        r = self.session.post(url, json=data, cookies={'jwt': self.token})
+        r = self.post(urls.API_ADD_USER, json=data)
 
         if r.status_code == 200:
             return True # TODO: request and return created User
-        elif r.status_code == 400:
+        else:
             message = r.json()
-            raise ConnectorException(message)
+            raise ConnectorException(message['details'])
 
     def edit_user(self, username, **fields):
-        url = urljoin(self.host, urls.API_EDIT_USER.format(username=username))
-
-        r = self.session.put(url, json=fields, cookies={'jwt': self.token})
+        r = self.put(urls.API_EDIT_USER, json=fields, username=username)
 
         if r.status_code == 200:
-            return True # TODO: request and return created User
-        elif r.status_code == 400:
+            return True
+        else:
             message = r.json()
-            raise ConnectorException(message)
+            raise ConnectorException(message['details'])
 
     def delete_user(self, username):
-        url = urljoin(self.host, urls.API_DELETE_USER.format(username=username))
-
-        r = self.session.delete(url, cookies={'jwt': self.token})
+        r = self.delete(urls.API_DELETE_USER, username=username)
 
         if r.status_code == 200:
             return True
-        elif r.status_code == 400:
+        else:
             message = r.json()
-            raise ConnectorException(message)
+            raise ConnectorException(message['details'])
 
     def duplicate_user(self, username, new_username):
-        url = urljoin(self.host, urls.API_DUPLICATE_USER.format(username=username))
-
-        r = self.session.post(url, json={'new_user': new_username}, cookies={'jwt': self.token})
+        r = self.post(
+            urls.API_DUPLICATE_USER,
+            json={'new_user': new_username},
+            username=username)
 
         if r.status_code == 200:
-            return True # TODO: request and return created User
-        elif r.status_code == 400:
+            return True
+        else:
             message = r.json()
-            raise ConnectorException(message)
+            raise ConnectorException(message['details'])
 
     def disable_user(self, username):
-        url = urljoin(self.host, urls.API_DISABLE_USER.format(username=username))
-
-        r = self.session.put(url, cookies={'jwt': self.token})
+        r = self.put(urls.API_DISABLE_USER, username=username)
 
         if r.status_code == 200:
             return True
-        elif r.status_code == 400:
+        else:
             message = r.json()
-            raise ConnectorException(message)
+            raise ConnectorException(message['details'])
 
     def enable_user(self, username):
-        url = urljoin(self.host, urls.API_ENABLE_USER.format(username=username))
-
-        r = self.session.put(url, cookies={'jwt': self.token})
+        r = self.put(urls.API_ENABLE_USER, username=username)
 
         if r.status_code == 200:
             return True
-        elif r.status_code == 400:
+        else:
             message = r.json()
-            raise ConnectorException(message)
+            raise ConnectorException(message['details'])
