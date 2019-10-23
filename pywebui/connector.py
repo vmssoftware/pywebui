@@ -11,41 +11,17 @@ class User:
     def __repr__(self):
         return self.username
 
+class Process:
+    def __init__(self, attrs):
+        for attr, value in attrs.items():
+            setattr(self, attr, value)
+
+    def __repr__(self):
+        return self.pid
+
 class ConnectorException(Exception): pass
 
-class Connector:
-    token = None
-    def __init__(self, host):
-        self.host = host
-        self.session = requests.Session()
-
-    def login(self, username, password):
-        url = urljoin
-        r = self.session.get(urljoin(self.host, urls.API_LOGIN), auth=(username, password))
-        if r.status_code == 200:
-            if 'jwt' in r.cookies:
-                self.token = r.cookies['jwt']
-
-    def get(self, url, **query_params):
-        url = urljoin(self.host, url.format(**query_params))
-        response = self.session.get(url, cookies={'jwt': self.token})
-        return response
-
-    def post(self, url, json={}, **query_params):
-        url = urljoin(self.host, url.format(**query_params))
-        response = self.session.post(url, json=json, cookies={'jwt': self.token})
-        return response
-
-    def put(self, url, json={}, **query_params):
-        url = urljoin(self.host, url.format(**query_params))
-        response = self.session.put(url, json=json, cookies={'jwt': self.token})
-        return response
-
-    def delete(self, url, **query_params):
-        url = urljoin(self.host, url.format(**query_params))
-        response = self.session.delete(url, cookies={'jwt': self.token})
-        return response
-
+class UserMethods:
     def get_users(self):
         users = []
         r = self.get(urls.API_GET_USER_LIST)
@@ -63,19 +39,17 @@ class Connector:
             message = r.json()
             raise ConnectorException(message['details'])
 
-    def create_user(self, username, owner, password, uic, defprives, device, directory, pwd_expired, prives, account=None, flags=None):
+    def create_user(self, username, owner, password, uic, def_priv, device, directory, pwd_expired, priv, account=None, flags=None):
         url = urljoin(self.host, urls.API_ADD_USER)
 
         data = {
-            "account": account,
-            "defprives": defprives,
+            "def_priv": def_priv,
             "device": device,
             "directory": directory,
-            "flags": flags,
             "owner": owner,
             "password": password,
             "pwd_expired": pwd_expired,
-            "prives": prives,
+            "priv": priv,
             "username": username,
             "uic": uic
         }
@@ -89,7 +63,7 @@ class Connector:
         r = self.post(urls.API_ADD_USER, json=data)
 
         if r.status_code == 200:
-            return True # TODO: request and return created User
+            return User(r.json())
         else:
             message = r.json()
             raise ConnectorException(message['details'])
@@ -141,3 +115,84 @@ class Connector:
         else:
             message = r.json()
             raise ConnectorException(message['details'])
+
+class SystemMethods:
+    def get_sysinfo(self):
+        r = self.get(urls.API_GET_SYSTEM_INFO)
+
+        if r.status_code == 200:
+            return r.json()
+        else:
+            message = r.json()
+            raise ConnectorException(message['details'])
+
+    def get_resinfo(self):
+        r = self.get(urls.API_GET_SYSTEM_RESOURCES)
+
+        if r.status_code == 200:
+            return r.json()
+        else:
+            message = r.json()
+            raise ConnectorException(message['details'])
+
+class ProcessMethods:
+    def get_processes(self):
+        processes = []
+        r = self.get(urls.API_GET_PROCESS_LIST)
+        if r.status_code == 200:
+            for attrs in r.json():
+                processes.append(Process(attrs))
+
+        return processes
+
+    def get_process(self, pid):
+        r = self.get(urls.API_GET_PROCESS_DETAIL, pid=pid)
+        if r.status_code == 200:
+            return Process(r.json())
+        elif r.status_code == 404:
+            message = r.json()
+            raise ConnectorException(message['details'])
+
+    def end_process(self, pid):
+        r = self.post(urls.API_KILL_PROCESS, pid=pid)
+        if r.status_code == 200:
+            return True
+        elif r.status_code == 404:
+            message = r.json()
+            raise ConnectorException(message['details'])
+
+class LicenseMethods:
+    pass
+
+class Connector(UserMethods, SystemMethods, ProcessMethods):
+    token = None
+    def __init__(self, host):
+        self.host = host
+        self.session = requests.Session()
+
+    def login(self, username, password):
+        url = urljoin
+        r = self.session.get(urljoin(self.host, urls.API_LOGIN), auth=(username, password))
+        if r.status_code == 200:
+            if 'jwt' in r.cookies:
+                self.token = r.cookies['jwt']
+
+    def get(self, url, **query_params):
+        url = urljoin(self.host, url.format(**query_params))
+        response = self.session.get(url, cookies={'jwt': self.token})
+        return response
+
+    def post(self, url, json={}, **query_params):
+        url = urljoin(self.host, url.format(**query_params))
+        response = self.session.post(url, json=json, cookies={'jwt': self.token})
+        return response
+
+    def put(self, url, json={}, **query_params):
+        url = urljoin(self.host, url.format(**query_params))
+        response = self.session.put(url, json=json, cookies={'jwt': self.token})
+        return response
+
+    def delete(self, url, **query_params):
+        url = urljoin(self.host, url.format(**query_params))
+        response = self.session.delete(url, cookies={'jwt': self.token})
+        return response

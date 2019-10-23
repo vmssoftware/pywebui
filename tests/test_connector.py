@@ -22,18 +22,19 @@ def test_get_user_detail():
 def test_create_user():
     c = pywebui.Connector(HOST)
     c.login('testuser', 'testuser')
+    c.delete_user('testuser7')
     c.create_user(
-        defprives = ["NETMBX","TMPMBX"],
+        username="testuser7",
+        owner="testuser7",
+        password="asd123asd123",
+        uic=["312", "77"],
+        def_priv = ["NETMBX","TMPMBX"],
         device = "SYS$SYSDEVICE",
-        directory = "[testuser1]",
-        flags = ["DISUSER"],
-        owner = "testuser1",
-        password = "asd123asd123",
-        pwd_expired = 0,
-        prives = ["NETMBX","TMPMBX"],
-        username = "testuser3",
-        uic = ["311","77"]
-        # account = "testuser1",
+        directory = "[testuser7]",
+        pwd_expired=0,
+        priv = ["NETMBX","TMPMBX"],
+        flags=["DISUSER"],
+        # account = "testuser5",
     )
 
 def test_edit_user():
@@ -60,3 +61,32 @@ def test_disable_user():
     c = pywebui.Connector(HOST)
     c.login('testuser', 'testuser')
     c.disable_user('testuser3')
+
+def test_get_sysinfo():
+    c = pywebui.Connector(HOST)
+    c.login('testuser', 'testuser')
+    print(c.get_sysinfo())
+
+def test_get_resinfo():
+    c = pywebui.Connector(HOST)
+    c.login('testuser', 'testuser')
+    print(c.get_resinfo())
+
+def test_get_process_list():
+    c = pywebui.Connector(HOST)
+    c.login('testuser', 'testuser')
+    print(c.get_processes())
+
+def test_get_process_details():
+    c = pywebui.Connector(HOST)
+    c.login('testuser', 'testuser')
+    processes = c.get_processes()
+
+    print(c.get_process(processes[0].pid))
+
+def test_end_process():
+    c = pywebui.Connector(HOST)
+    c.login('testuser', 'testuser')
+    processes = c.get_processes()
+
+    print(c.end_process(processes[0].pid))
