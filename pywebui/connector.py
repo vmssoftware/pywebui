@@ -8,9 +8,10 @@ from pywebui.processes import ProcessMethods
 from pywebui.licenses import LicenseMethods
 from pywebui.disks import DiskMethods
 from pywebui.cluster import ClusterMethods
+from pywebui.reports import ReportMethods
 
 
-class Connector(UserMethods, SystemMethods, ProcessMethods, LicenseMethods, DiskMethods, ClusterMethods):
+class Connector(UserMethods, SystemMethods, ProcessMethods, LicenseMethods, DiskMethods, ClusterMethods, ReportMethods):
     token = None
 
     def __init__(self, host):

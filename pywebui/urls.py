@@ -36,4 +36,10 @@ API_REGISTER_LICENSE = '/api/licenses/{product}/register'
 API_GET_DISKS = '/api/disks'
 API_GET_DISK_DETAIL = '/api/disks/{device}'
 
+API_GET_REPORTS = '/api/reports'
+API_GET_REPORT = '/api/reports/{filename}?fileDir={directory}'
+API_EXPORT_REPORT = '/api/reports/{filename}/export?fileDir={directory}'
+API_GET_REPORT_LOG = '/api/reports/{filename}/export?fileDir={directory}'
+API_GENERATE_REPORTS = '/api/reports'
+
 API_GET_NODES = '/api/nodes'
