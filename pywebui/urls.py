@@ -42,4 +42,9 @@ API_EXPORT_REPORT = '/api/reports/{filename}/export?fileDir={directory}'
 API_GET_REPORT_LOG = '/api/reports/{filename}/export?fileDir={directory}'
 API_GENERATE_REPORTS = '/api/reports'
 
+API_GET_INSTALLED_PACKAGES = '/api/pcsi'
+API_GET_INSTALLED_PACKAGE_HISTORY = '/api/pcsi/{product}'
+API_EXPORT_INSTALLED_PACKAGE_HISTORY = '/api/pcsi/{product}/export'
+API_DELETE_INSTALLED_PACKAGE = '/api/pcsi/{product}'
+
 API_GET_NODES = '/api/nodes'

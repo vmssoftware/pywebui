@@ -9,9 +9,11 @@ class License(ResponseObject):
     def __repr__(self):
         return f'{self.productName}.{self.authorization}'
 
+
 class LicenseHistory(License):
     def __repr__(self):
         return f'{self.productName}.{self.authorization}'
+
 
 class LicenseMethods:
     def get_all_licenses(self):
