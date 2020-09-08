@@ -4,7 +4,7 @@ from pytest import fixture
 from pywebui import Connector
 
 
-HOST = 'http://172.16.1.102:8082/'
+HOST = 'http://10.11.102.21:8082/'
 USERNAME = 'TESTUSER'
 PASSWORD = 'testuser'
 

@@ -24,7 +24,7 @@ def test_get_license_detail(connector, first_license):
 
 @pytest.fixture
 def product():
-    return 'x25'
+    return 'X25'
 
 
 @pytest.fixture(scope="function")
@@ -39,46 +39,49 @@ def new_license(connector, product):
         "token": "*** VSI INTERNAL USE ONLY ***",
         "checksum": "2-AKFE-OKFP-CNOC-MKIK"
     }
-    connector.delete_license(product, data['authorization'])
+    try:
+        connector.delete_license(product, data['authorization'])
+    except ConnectorException:
+        pass
+
     yield connector.register_license(product, data)
-    connector.delete_license(product, data['authorization'])
+
+    try:
+        connector.delete_license(product, data['authorization'])
+    except ConnectorException:
+        pass
 
 
-@pytest.mark.skip('Valid license required')
 def test_register_license(connector, new_license):
     assert new_license
 
-@pytest.mark.skip('Valid license required')
-def test_get_license_history(connector, first_license):
-    assert connector.get_license_history(first_license.productName, first_license.authorization)
+
+def test_get_license_history(connector, new_license):
+    connector.disable_license(new_license.productName, new_license.authorization)
+    assert connector.get_license_history(new_license.productName, new_license.authorization)
 
 
-@pytest.mark.skip('Valid license required')
 def test_delete_license(connector, new_license):
     assert connector.delete_license(new_license.productName, new_license.authorization)
 
 
-@pytest.mark.skip('Valid license required')
 def test_export_license_history(connector, new_license):
+    connector.disable_license(new_license.productName, new_license.authorization)
     content = connector.export_license_history(new_license.productName, new_license.authorization)
     assert content
 
 
-@pytest.mark.skip('Valid license required')
 def test_enable_license(connector, new_license):
     assert connector.enable_license(new_license.productName, new_license.authorization)
 
 
-@pytest.mark.skip('Valid license required')
 def test_disable_license(connector, new_license):
-    assert connector.enable_license(new_license.productName, new_license.authorization)
+    assert connector.disable_license(new_license.productName, new_license.authorization)
 
 
-@pytest.mark.skip('Valid license required')
 def test_load_license(connector, new_license):
     assert connector.load_license(new_license.productName, new_license.authorization)
 
 
-@pytest.mark.skip('Valid license required')
 def test_unload_license(connector, new_license):
     assert connector.unload_license(new_license.productName, new_license.authorization)

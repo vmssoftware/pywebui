@@ -46,6 +46,8 @@ class LicenseMethods:
         if r.status_code == 200:
             for attrs in r.json():
                 history.append(LicenseHistory(attrs))
+        elif r.status_code == 404:
+            pass
 
         return history
 
