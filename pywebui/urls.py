@@ -47,4 +47,8 @@ API_GET_INSTALLED_PACKAGE_HISTORY = '/api/pcsi/{product}'
 API_EXPORT_INSTALLED_PACKAGE_HISTORY = '/api/pcsi/{product}/export'
 API_DELETE_INSTALLED_PACKAGE = '/api/pcsi/{product}'
 
+API_GET_CURRENT_SYSGEN = '/api/sysgen/?dataSource=current&group={group}'
+API_GET_ACTIVE_SYSGEN = '/api/sysgen/?dataSource=active&group={group}'
+API_EDIT_SYSGEN = '/api/sysgen'
+
 API_GET_NODES = '/api/nodes'

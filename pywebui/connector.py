@@ -10,6 +10,7 @@ from pywebui.disks import DiskMethods
 from pywebui.cluster import ClusterMethods
 from pywebui.reports import ReportMethods
 from pywebui.packages import InstalledPackagesMethods
+from pywebui.parameters import SystemParametersMethods
 
 
 class Connector(
@@ -20,7 +21,8 @@ class Connector(
     DiskMethods,
     ClusterMethods,
     ReportMethods,
-    InstalledPackagesMethods
+    InstalledPackagesMethods,
+    SystemParametersMethods
 ):
     token = None
 
