@@ -11,6 +11,7 @@ from pywebui.cluster import ClusterMethods
 from pywebui.reports import ReportMethods
 from pywebui.packages import InstalledPackagesMethods
 from pywebui.parameters import SystemParametersMethods
+from pywebui.identifiers import IdentifiersMethods
 
 
 class Connector(
@@ -22,7 +23,8 @@ class Connector(
     ClusterMethods,
     ReportMethods,
     InstalledPackagesMethods,
-    SystemParametersMethods
+    SystemParametersMethods,
+    IdentifiersMethods
 ):
     token = None
 

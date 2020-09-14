@@ -51,4 +51,13 @@ API_GET_CURRENT_SYSGEN = '/api/sysgen/?dataSource=current&group={group}'
 API_GET_ACTIVE_SYSGEN = '/api/sysgen/?dataSource=active&group={group}'
 API_EDIT_SYSGEN = '/api/sysgen'
 
+API_GET_IDENTIFIERS = '/api/identifiers?0'
+API_GET_ALL_IDENTIFIERS = '/api/identifiers'
+API_GET_IDENTIFIER_HOLDERS = '/api/identifiers/{identifier}'
+API_GET_HOLDER_IDENTIFIERS = '/api/holders/{holder}'
+API_CREATE_IDENTIFIER = '/api/identifiers'
+API_REVOKE_IDENTIFIERS = '/api/identifiers/revoke'
+API_GRANT_IDENTIFIERS = '/api/identifiers/grant'
+API_DELETE_IDENTIFIER = '/api/identifiers/{identifier}'
+
 API_GET_NODES = '/api/nodes'
