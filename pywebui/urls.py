@@ -1,3 +1,5 @@
+# Module contains urls of API endpoints
+
 API_LOGIN = '/login'
 API_GET_VERSION = '/api/version'
 
@@ -59,5 +61,16 @@ API_CREATE_IDENTIFIER = '/api/identifiers'
 API_REVOKE_IDENTIFIERS = '/api/identifiers/revoke'
 API_GRANT_IDENTIFIERS = '/api/identifiers/grant'
 API_DELETE_IDENTIFIER = '/api/identifiers/{identifier}'
+
+API_GET_BATCH_QUEUES = '/api/queues?batch'
+API_GET_PRINTER_QUEUES = '/api/queues?printer'
+API_GET_QUEUE_DETAIL = '/api/queues/{queue}'
+API_START_QUEUE = '/api/queues/{queue}/start'
+API_PAUSE_QUEUE = '/api/queues/{queue}/pause'
+API_STOP_QUEUE = '/api/queues/{queue}/stop'
+API_EDIT_QUEUE_DESCRIPTION = '/api/queues/{queue}/edit'
+API_START_JOB = '/api/jobs/{job}/start'
+API_PAUSE_JOB = '/api/jobs/{job}/pause'
+API_DELETE_JOB = '/api/jobs/{job}/delete'
 
 API_GET_NODES = '/api/nodes'

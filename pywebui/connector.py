@@ -12,6 +12,7 @@ from pywebui.reports import ReportMethods
 from pywebui.packages import InstalledPackagesMethods
 from pywebui.parameters import SystemParametersMethods
 from pywebui.identifiers import IdentifiersMethods
+from pywebui.queues import QueuesMethods
 
 
 class Connector(
@@ -24,7 +25,8 @@ class Connector(
     ReportMethods,
     InstalledPackagesMethods,
     SystemParametersMethods,
-    IdentifiersMethods
+    IdentifiersMethods,
+    QueuesMethods
 ):
     token = None
 
