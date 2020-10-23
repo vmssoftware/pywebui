@@ -78,6 +78,8 @@ SKIP = [re.compile(s) for s in [
     'pywebui.identifiers.Identifier.GID_TYPE',
     'pywebui.identifiers.Identifier.TYPES',
     'pywebui.identifiers.Identifier.ATTRIBUTES',
+
+    ' pywebui.response.ResponseObject',
 ]]
 
 def maybe_skip_member(app, what, name, obj, skip, options):
