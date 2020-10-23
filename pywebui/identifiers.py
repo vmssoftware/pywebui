@@ -1,4 +1,5 @@
 from typing import List
+
 from pywebui import urls
 from pywebui.exceptions import ConnectorException
 from pywebui.response import ResponseObject
