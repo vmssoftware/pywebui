@@ -1,9 +1,18 @@
+from typing import List
 from pywebui import urls
 from pywebui.exceptions import ConnectorException
 from pywebui.response import ResponseObject
 
 
 class Identifier(ResponseObject):
+    """
+    Identifier object.
+
+    Attributes:
+        GIDValue (str): The decimal value of group identifier (GID).
+        name (str): The name of identifier.
+        value (str): The hex value of identifier.
+    """
     IDENTIFIER_TYPE = 'IDENTIFIER'
     GID_TYPE = 'GID'
 
@@ -23,12 +32,22 @@ class Identifier(ResponseObject):
 
 
 class Holder(ResponseObject):
+    """
+    Holder object.
+
+    Attributes:
+        attributes (list(str)): array of holder's attributes.
+        holder (str): name of user (holder) who hold selected identifier
+    """
     def __repr__(self):
         return f'{self.holder}'
 
 
 class IdentifiersMethods:
-    def get_identifiers(self):
+    """Encapsulates methods for manage identifiers."""
+
+    def get_identifiers(self) -> List[Identifier]:
+        """Returns the list of rights identifiers without user UIC's."""
         identifiers = []
         r = self.get(urls.API_GET_IDENTIFIERS)
         if r.status_code == 200:
@@ -37,7 +56,8 @@ class IdentifiersMethods:
 
         return identifiers
 
-    def get_all_identifiers(self):
+    def get_all_identifiers(self) -> List[Identifier]:
+        """Returns the list of all rights identifiers."""
         identifiers = []
         r = self.get(urls.API_GET_ALL_IDENTIFIERS)
         if r.status_code == 200:
@@ -46,13 +66,15 @@ class IdentifiersMethods:
 
         return identifiers
 
-    def get_identifier(self, identifier):
+    def get_identifier(self, identifier: str) -> Identifier:
+        """Returns identifier by name."""
         identifiers = self.get_all_identifiers()
         identifiers = list(filter(lambda i: i.name == identifier, identifiers))
         if identifiers:
             return identifiers[0]
 
-    def get_identifier_holders(self, identifier):
+    def get_identifier_holders(self, identifier: str) ->  List[Holder]:
+        """Returns the list of users (holders) who hold selected identifier."""
         holders = []
         r = self.get(urls.API_GET_IDENTIFIER_HOLDERS, identifier=identifier)
         if r.status_code == 200:
@@ -61,7 +83,11 @@ class IdentifiersMethods:
 
         return holders
 
-    def get_holder_identifiers(self, holder):
+    def get_holder_identifiers(self, holder: str) -> List[Identifier]:
+        """Returns the list of identifiers that are held by selected user (holder).
+
+        User can hold one or more identifiers, or no identifiers.
+        """
         identifiers = []
         r = self.get(urls.API_GET_HOLDER_IDENTIFIERS, holder=holder)
         if r.status_code == 200:
@@ -73,7 +99,8 @@ class IdentifiersMethods:
 
         return identifiers
 
-    def create_identifier(self, name, value, identifier_type=Identifier.IDENTIFIER_TYPE, attributes=[]):
+    def create_identifier(self, name: str, value: str, identifier_type: str = Identifier.IDENTIFIER_TYPE, attributes: List[str] = []) -> bool:
+        """Creates the new identifier."""
         data = {
             "identName": name,
             "identValue":
@@ -90,7 +117,8 @@ class IdentifiersMethods:
             message = r.json()
             raise ConnectorException(message['details'])
 
-    def delete_identifier(self, identifier):
+    def delete_identifier(self, identifier) -> bool:
+        """Deletes selected identifier."""
         r = self.delete(urls.API_DELETE_IDENTIFIER, identifier=identifier)
 
         if r.status_code == 200:
@@ -99,7 +127,8 @@ class IdentifiersMethods:
             message = r.json()
             raise ConnectorException(message['details'])
 
-    def grant_identifiers(self, username, identifiers):
+    def grant_identifiers(self, username: str, identifiers: List[str]) -> bool:
+        """Grants identifiers to user."""
         data = [{
             "username": username,
             "identifiers": identifiers
@@ -111,7 +140,8 @@ class IdentifiersMethods:
             message = r.json()
             raise ConnectorException(message['details'])
 
-    def rovoke_identifiers(self, username, identifiers):
+    def rovoke_identifiers(self, username: str, identifiers: List[str]) -> bool:
+        """Revokes identifiers from user."""
         data = [{
             "username": username,
             "identifiers": identifiers
