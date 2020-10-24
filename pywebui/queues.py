@@ -68,6 +68,8 @@ class Job(ResponseObject):
 
 
 class QueuesMethods:
+    """Encapsulates methods for manage queues."""
+
     def get_batch_queues(self) -> List[Queue]:
         """Returns the list of batch queues."""
         queues = []

@@ -35,15 +35,15 @@ class License(ResponseObject):
 
 
 class LicenseHistory(License):
-    """License history object."""
+    """License history object.
+
+    Contains the same attributes as License object."""
     def __repr__(self):
         return f'{self.productName}.{self.authorization}'
 
 
 class LicenseMethods:
-    """Encapsulates methods for manage licenses.
-
-    Contains the same attributes as License object."""
+    """Encapsulates methods for manage licenses."""
 
     def get_all_licenses(self) -> List[License]:
         """Returns the list of all licenses."""
