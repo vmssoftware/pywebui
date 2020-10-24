@@ -1,5 +1,5 @@
 import os
-from urllib.parse import urljoin
+from typing import List
 
 from pywebui import urls
 from pywebui.exceptions import ConnectorException
@@ -7,15 +7,32 @@ from pywebui.response import ResponseObject
 
 
 class Report(ResponseObject):
+    """Report object.
+
+    Attributes:
+        date (int): The date of creating report or date of last edition of script (Unix Epoch format).
+        user (str): The name of user who edit.
+        fileName (str): The name of report or script.
+        directory (str): The directory name
+    """
     def __repr__(self):
         return self.fileName
 
 
 class Script(Report):
-    pass
+    """Script object.
+
+    Attributes:
+        date (int): The date of creating report or date of last edition of script (Unix Epoch format).
+        user (str): The name of user who edit.
+        fileName (str): The name of report or script.
+        directory (str): The directory name
+    """
 
 
 class ReportMethods:
+    """Encapsulates methods for manage reports."""
+
     def _get_objects(self, attr, _class):
         objects = []
         r = self.get(urls.API_GET_REPORTS)
@@ -33,13 +50,16 @@ class ReportMethods:
 
         return objects
 
-    def get_reports(self):
+    def get_reports(self) -> List[Report]:
+        """Returns the list of reports."""
         return self._get_objects('files', Report)
 
-    def get_scripts(self):
+    def get_scripts(self) -> List[Script]:
+        """Returns the list of scripts."""
         return self._get_objects('scripts', Script)
 
-    def get_report(self, filename, directory):
+    def get_report(self, filename: str, directory: str) -> str:
+        """Returns  details of report."""
         r = self.get(urls.API_GET_REPORT, filename=filename, directory=directory)
         if r.status_code == 200:
             return r.text
@@ -47,7 +67,8 @@ class ReportMethods:
             message = r.json()
             raise ConnectorException(message['details'])
 
-    def get_log(self, filename, directory):
+    def get_log(self, filename: str, directory: str) -> str:
+        """Returns details of log file."""
         r = self.get(urls.API_GET_REPORT_LOG, filename=os.path.basename(filename), directory=directory)
         if r.status_code == 200:
             return r.text
@@ -55,7 +76,8 @@ class ReportMethods:
             message = r.json()
             raise ConnectorException(message['details'])
 
-    def generate(self, script_dir, script_name, report_dir):
+    def generate(self, script_dir: str, script_name: str, report_dir: str) -> bool:
+        """Runs script to generate report."""
         data = [{
             "scriptDir": script_dir,
             "scriptName": script_name,
@@ -67,7 +89,8 @@ class ReportMethods:
         else:
             return False
 
-    def export_report(self, filename, directory):
+    def export_report(self, filename: str, directory: str) -> str:
+        """Returns report content."""
         r = self.get(urls.API_EXPORT_REPORT, filename=filename, directory=directory)
         if r.status_code == 200:
             return r.text
