@@ -69,8 +69,11 @@ class UserMethods:
         Keyword Args:
             flags: login flags for the user.
             pwd_expired: primary password is pre-expired (false is not pre-expired or true is pre-expired).
+
         Example:
-            >>> connector.create_user(
+            ::
+
+                connector.create_user(
                     username="testuser",
                     owner="testowner",
                     password="asd123asd123",
