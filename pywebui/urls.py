@@ -94,6 +94,7 @@ API_GET_INTERFACE = '/api/tcpip/interfaces/{name}'
 API_GET_NETSTAT = '/api/tcpip/netstat'
 
 API_GET_SERVICES = '/api/tcpip/services'
+API_GET_SERVICE = '/api/tcpip/services/{name}'
 API_ADD_SERVICE = '/api/tcpip/services'
 API_EDIT_SERVICE = '/api/tcpip/services/{name}'
 API_DELETE_SERVICE = '/api/tcpip/services/{name}'

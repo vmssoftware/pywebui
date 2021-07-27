@@ -33,6 +33,15 @@ class ServiceMethods:
 
         return hosts
 
+    def get_service(self, name) -> Service:
+        """Returns the details of selected service."""
+        r = self.get(urls.API_GET_SERVICE, name=name)
+        if r.status_code == 200:
+            return Service(r.json())
+        else:
+            message = r.json()
+            raise ConnectorException(message['details'])
+
     def add_service(self, name: str, process: str, port: int, username: str, file: str) -> bool:
         """Creates the new service."""
         data = {
@@ -52,7 +61,10 @@ class ServiceMethods:
             raise ConnectorException(message['details'])
 
     def edit_service(self, name, **kwds) -> bool:
-        """Edits the selected service."""
+        """Edits the selected service.
+
+        Service parameters available for modification described in Edit Service API documentation."""
+
         data = kwds
 
         r = self.put(urls.API_EDIT_SERVICE, name=name, json=data)
