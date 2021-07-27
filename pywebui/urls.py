@@ -74,3 +74,30 @@ API_PAUSE_JOB = '/api/jobs/{job}/pause'
 API_DELETE_JOB = '/api/jobs/{job}/delete'
 
 API_GET_NODES = '/api/nodes'
+
+API_GET_ALERTS = '/api/alerts'
+API_GET_BOOKMARKS = '/api/bookmarks'
+API_ADD_BOOKMARK = '/api/bookmarks'
+API_DELETE_BOOKMARK = '/api/bookmarks'
+
+API_GET_DEVICES = '/api/tcpip/devices'
+API_GET_DEVICE = '/api/tcpip/devices/{name}'
+
+API_GET_HOSTS = '/api/tcpip/hosts'
+API_ADD_HOST = '/api/tcpip/hosts'
+API_EDIT_HOST = '/api/tcpip/hosts/{name}/{address}'
+API_DELETE_HOST = '/api/tcpip/hosts/{name}/{address}'
+
+API_GET_INTERFACES = '/api/tcpip/interfaces'
+API_GET_INTERFACE = '/api/tcpip/interfaces/{name}'
+
+API_GET_NETSTAT = '/api/tcpip/netstat'
+
+API_GET_SERVICES = '/api/tcpip/services'
+API_ADD_SERVICE = '/api/tcpip/services'
+API_EDIT_SERVICE = '/api/tcpip/services/{name}'
+API_DELETE_SERVICE = '/api/tcpip/services/{name}'
+
+API_GET_SUBSYSTEMS = '/api/tcpip/sysconfig'
+API_GET_SUBSYSTEM = '/api/tcpip/sysconfig/{name}'
+API_EDIT_SUBSYSTEMS = '/api/tcpip/sysconfig/{name}'

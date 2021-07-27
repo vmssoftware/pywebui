@@ -1,13 +1,3 @@
-"""
-.. module:: useful_1
-   :platform: Unix, Windows
-   :synopsis: A useful module indeed.
-
-.. moduleauthor:: Andrew Carter <andrew@invalid.com>
-
-
-"""
-
 import requests
 from urllib.parse import urljoin
 
@@ -23,6 +13,13 @@ from pywebui.packages import InstalledPackagesMethods
 from pywebui.parameters import SystemParametersMethods
 from pywebui.identifiers import IdentifiersMethods
 from pywebui.queues import QueuesMethods
+from pywebui.alerts import AlertsMethods
+from pywebui.tcpip.devices import DeviceMethods
+from pywebui.tcpip.hosts import HostMethods
+from pywebui.tcpip.interfaces import InterfaceMethods
+from pywebui.tcpip.netstat import NetstatMethods
+from pywebui.tcpip.services import ServiceMethods
+from pywebui.tcpip.subsystems import SubsystemMethods
 
 
 class Connector(
@@ -36,7 +33,14 @@ class Connector(
     InstalledPackagesMethods,
     SystemParametersMethods,
     IdentifiersMethods,
-    QueuesMethods
+    QueuesMethods,
+    AlertsMethods,
+    DeviceMethods,
+    HostMethods,
+    InterfaceMethods,
+    NetstatMethods,
+    ServiceMethods,
+    SubsystemMethods
 ):
     """Connection class."""
     token = None

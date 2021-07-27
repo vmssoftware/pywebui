@@ -86,7 +86,6 @@ class UserMethods:
                     flags=["DISUSER"],
                 )
         """
-        url = urljoin(self.host, urls.API_ADD_USER)
 
         data = {
             "def_priv": def_priv,
