@@ -68,7 +68,7 @@ class Connector(
 
     def get(self, url, **query_params):
         url = urljoin(self.host, url.format(**query_params))
-        response =git  self.session.get(url, cookies={'jwt': self.token})
+        response = self.session.get(url, cookies={'jwt': self.token})
         return response
 
     def post(self, url, json={}, **query_params):
