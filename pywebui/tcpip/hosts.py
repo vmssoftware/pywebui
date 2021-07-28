@@ -45,7 +45,7 @@ class HostMethods:
             message = r.json()
             raise ConnectorException(message['details'])
 
-    def edit_host(self, name: str, address: str, aliases: List[str] = None) -> bool:
+    def edit_host_aliases(self, name: str, address: str, aliases: List[str] = None) -> bool:
         """Edits aliases of the selected host."""
         data = {
             'aliases': [] if aliases is None else aliases}
