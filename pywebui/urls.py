@@ -75,7 +75,7 @@ API_DELETE_JOB = '/api/jobs/{job}/delete'
 
 API_GET_NODES = '/api/nodes'
 
-API_GET_ALERTS = '/api/alerts'
+API_GET_ALERTS = '/api/alerts?type={type}&limit={limit}&afterID={afterID}&beforeID={beforeID}'
 API_GET_BOOKMARKS = '/api/bookmarks'
 API_ADD_BOOKMARK = '/api/bookmarks'
 API_DELETE_BOOKMARK = '/api/bookmarks'

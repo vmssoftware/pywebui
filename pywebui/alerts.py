@@ -37,22 +37,22 @@ class Bookmark(Alert):
 class AlertType(Enum):
     """Available alert types."""
 
-    OPCOM = "OPCOM"
-    INTRUSIONS = "INTRUSIONS"
-    DEVICES = "DEVICES"
+    OPCOM = "opcom"
+    INTRUSIONS = "intrusions"
+    DEVICES = "devices"
 
 
 class AlertsMethods:
     """Encapsulates methods for manage alerts."""
 
-    def get_alerts(self, alert_type: str, limit: int = 30, after_id: int = -1, before_id: int = -1) -> List[Alert]:
+    def get_alerts(self, alert_type: AlertType, limit: int = 30, after_id: int = -1, before_id: int = -1) -> List[Alert]:
         """Returns list of messages from operator console, list of intrusions and list of errors for disks."""
         alerts = []
         r = self.get(urls.API_GET_ALERTS,
-                     type=alert_type,
+                     type=alert_type.value,
                      limit=limit,
-                     after_id=after_id,
-                     before_id=before_id)
+                     afterID=after_id,
+                     beforeID=before_id)
         if r.status_code == 200:
             for attrs in r.json():
                 alerts.append(Alert(attrs))
@@ -69,11 +69,11 @@ class AlertsMethods:
 
         return bookmarks
 
-    def add_bookmark(self, alert_id: int, alert_type: str) -> bool:
+    def add_bookmark(self, alert_id: int, alert_type: AlertType) -> bool:
         """Adds message to bookmarks."""
         data = {
             'id': alert_id,
-            'type': alert_type}
+            'type': alert_type.value}
 
         r = self.post(urls.API_ADD_BOOKMARK, json=data)
 
@@ -83,9 +83,9 @@ class AlertsMethods:
             message = r.json()
             raise ConnectorException(message['details'])
 
-    def delete_bookmark(self, alert_id: int, alert_type: str) -> bool:
+    def delete_bookmark(self, alert_id: int, alert_type: AlertType) -> bool:
         """Deletes message which saved as bookmark."""
-        data = [{'id': alert_id, 'type': alert_type}]
+        data = [{'id': alert_id, 'type': alert_type.value}]
 
         r = self.delete(urls.API_DELETE_BOOKMARK, json=data)
 

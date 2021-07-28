@@ -68,7 +68,7 @@ class Connector(
 
     def get(self, url, **query_params):
         url = urljoin(self.host, url.format(**query_params))
-        response = self.session.get(url, cookies={'jwt': self.token})
+        response =git  self.session.get(url, cookies={'jwt': self.token})
         return response
 
     def post(self, url, json={}, **query_params):
@@ -81,9 +81,9 @@ class Connector(
         response = self.session.put(url, json=json, cookies={'jwt': self.token})
         return response
 
-    def delete(self, url, **query_params):
+    def delete(self, url, json={}, **query_params):
         url = urljoin(self.host, url.format(**query_params))
-        response = self.session.delete(url, cookies={'jwt': self.token})
+        response = self.session.delete(url, json=json, cookies={'jwt': self.token})
         return response
 
     def get_version(self) -> str:
