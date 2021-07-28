@@ -1,10 +1,12 @@
+from typing import List
+
 from pywebui import urls
 from pywebui.exceptions import ConnectorException
 from pywebui.response import ResponseObject
 
 
-class Netstat(ResponseObject):
-    """Netstat object.
+class Connection(ResponseObject):
+    """Connection object.
 
     Attributes:
         foreignAddress (str): the foreign address of connection.
@@ -17,11 +19,15 @@ class Netstat(ResponseObject):
 
 class NetstatMethods:
     """Encapsulates methods for manage netstat."""
-    def get_interface(self, name) -> Netstat:
+    def get_netstat(self) -> List[Connection]:
         """Returns the list of net statistics for active internet connections."""
+        connections = []
         r = self.get(urls.API_GET_NETSTAT)
         if r.status_code == 200:
-            return Netstat(r.json())
+            for attrs in r.json():
+                connections.append(Connection(attrs))
         else:
             message = r.json()
             raise ConnectorException(message['details'])
+
+        return connections
