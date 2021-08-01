@@ -25,13 +25,13 @@ class ServiceMethods:
 
     def get_services(self) -> List[Service]:
         """Returns list of services."""
-        hosts = []
+        services = []
         r = self.get(urls.API_GET_SERVICES)
         if r.status_code == 200:
             for attrs in r.json():
-                hosts.append(Service(attrs))
+                services.append(Service(attrs))
 
-        return hosts
+        return services
 
     def get_service(self, name) -> Service:
         """Returns the details of selected service."""

@@ -6,7 +6,7 @@ from pywebui.response import ResponseObject
 
 
 class Subsystem(ResponseObject):
-    """Host object.
+    """Subsystem object.
 
     Attributes:
         configured (bool): the subsystem is configured or not (boolean value).
@@ -14,8 +14,28 @@ class Subsystem(ResponseObject):
         name (str): the name of subsystem.
         status (str): the status of subsystem.
     """
+
+    def get_attribute(self, name):
+        """Return attribute object."""
+        attrs = list(filter(lambda attr: attr.name == name, self.attributes))
+        return attrs[0] if attrs else None
+
     def __repr__(self):
         return self.name
+
+
+class SubsystemAttributes(Subsystem):
+    """Subsystem attributes object.
+
+    Attributes:
+        currentValue (int): the current value of attribute.
+        maxValue (int): the max value of attribute.
+        minValue (int): the min value of attribute.
+        name (str): the name of attribute.
+    """
+
+    def __repr__(self):
+        return f'{self.name}:{self.currentValue} {self.minValue}-{self.maxValue} '
 
 
 class SubsystemMethods:
@@ -34,8 +54,11 @@ class SubsystemMethods:
     def get_subsystem(self, name) -> Subsystem:
         """Returns the information about configuration of selected subsystem."""
         r = self.get(urls.API_GET_SUBSYSTEM, name=name)
+        attributes = []
         if r.status_code == 200:
-            return Subsystem(r.json())
+            for attrs in r.json():
+                attributes.append(SubsystemAttributes(attrs))
+            return Subsystem({'name': name, 'attributes': attributes})
         else:
             message = r.json()
             raise ConnectorException(message['details'])
