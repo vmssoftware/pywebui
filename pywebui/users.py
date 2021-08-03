@@ -9,15 +9,7 @@ from pywebui.response import ResponseObject
 class User(ResponseObject):
     """User object.
 
-    Attributes:
-        account (str): the account name of the user.
-        dir (str): the default directory.
-        disabled (bool): the boolean value, means user is disabled  or enabled.
-        owner (str): the name of the owner of the account.
-        pri (int): the default base priority.
-        priv  (list(str)): the names of the privileges the user holds.
-        uic (list(int)): the user identification code (UIC).
-        username (str): the user name.
+    Available fields described in Get User API documentation.
     """
     def __repr__(self):
         return self.username
@@ -80,10 +72,11 @@ class UserMethods:
                     uic=("312", "77"),
                     def_priv=["NETMBX","TMPMBX"],
                     device="SYS$SYSDEVICE",
-                    directory=f"[{tmp_username}]",
+                    directory="[testuser1]",
                     pwd_expired=False,
                     priv=["NETMBX","TMPMBX"],
                     flags=["DISUSER"],
+                    # account = "testusr1",
                 )
         """
 

@@ -46,17 +46,17 @@ c.get_users()
     c = pywebui.Connector('http://10.11.102.21:8082')
     c.login('testuser', 'testuser')
     c.create_user(
-        defprives = ["NETMBX","TMPMBX"],
+        def_priv = ["NETMBX","TMPMBX"],
         device = "SYS$SYSDEVICE",
         directory = "[testuser1]",
         flags = ["DISUSER"],
         owner = "testuser1",
         password = "asd123asd123",
         pwd_expired = 0,
-        prives = ["NETMBX","TMPMBX"],
+        priv = ["NETMBX","TMPMBX"],
         username = "testuser1",
         uic = ["310","77"]
-        # account = "testuser1",
+        # account = "testusr1",
     )
 ```
 
@@ -67,7 +67,7 @@ c.get_users()
     c.login('testuser', 'testuser')
     c.edit_user("testuser1",
         owner = "testuser2",
-        account="testuser2")
+        account="testusr2")
 ```
 
 ### Duplicate User
@@ -75,7 +75,7 @@ c.get_users()
 ```python
     c = pywebui.Connector('http://10.11.102.21:8082')
     c.login('testuser', 'testuser')
-    c.duplicate_user('testuser1', 'testuser2')
+    c.duplicate_user('testuser1', 'testuser2', ["312","77"])
 ```
 
 
