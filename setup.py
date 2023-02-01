@@ -7,7 +7,8 @@ setup(name='pywebui',
       description='Python bind for OpenVMS Administration Tool',
       author='VMS Software',
       author_email='info@vmssoftware.com',
-      packages=['pywebui'],
+      packages=['pywebui', 'pywebui.tcpip'],
+      package_data={'pywebui.tcpip': ['*']},
       install_requires=['requests==2.22.0'],
       setup_requires=['requests==2.22.0']
 )
